@@ -1,22 +1,35 @@
 import axios from 'axios';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
+import {useSelector, useDispatch} from 'react-redux';
+import { fetchData } from '../Features/dataSlice';
 
 
 const Table = () => {
 
-    const [userinfo, setUserinfo] = useState([]);
+    /* const [userinfo, setUserinfo] = useState([]);
 
     useEffect(() => {
         axios.get('tabledata.json')
             .then(res => setUserinfo(res.data))
+    }, []) */
+
+
+    const {isLoading, userinfo, error} = useSelector(state => state.data);
+
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(fetchData())      
     }, [])
+
+    if(isLoading) {
+        return <h1>Loading....</h1>
+    }
+    
 
     return (
         <div>
             <h1>All the Students Data</h1>
-
-
 
             <table style={{ width: "100%" }}>
                 <tr>
@@ -26,12 +39,13 @@ const Table = () => {
                     <th>Action</th>
                 </tr>
 
-                {userinfo &&
+                {
+                userinfo &&
                     userinfo.map(data => {
                        return <tr>
                             <td>{data?.name}</td>
                             <td>{data?.email}</td>
-                            <td>{data?.amountPaid}</td>                            
+                            <td>{data?.amountPaid}</td>
                             { !data?.isPaid ? <button>Make Paid</button> : <td> Paid</td> }
                         </tr>
                     })
