@@ -1,6 +1,4 @@
-
 import './App.css';
-import Table from './componants/Table';
 import TableData from './componants/TableData';
 
 function App() {
