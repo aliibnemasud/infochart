@@ -1,22 +1,14 @@
-import React, { useEffect } from 'react';
-import {useSelector, useDispatch} from 'react-redux';
-import { fetchData } from '../Features/dataSlice';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { makePaid } from '../Features/tableDataSlice';
 
-const Table = () => {
-   
-    const {isLoading, userinfo, error} = useSelector(state => state.data);
+const TableData = () => {
+    const { userinfo } = useSelector(state => state.tableData);
 
     const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(fetchData())      
-    }, [])
-
-    if(isLoading) {
-        return <h1>Loading....</h1>
-    }
-    
 
     return (
+
         <div>
             <h1>All the Students Data</h1>
 
@@ -29,13 +21,13 @@ const Table = () => {
                 </tr>
 
                 {
-                userinfo &&
+                    userinfo &&
                     userinfo.map(data => {
-                       return <tr>
+                        return <tr>
                             <td>{data?.name}</td>
                             <td>{data?.email}</td>
                             <td>{data?.amountPaid}</td>
-                            { !data?.isPaid ? <button>Make Paid</button> : <td> Paid</td> }
+                            {!data?.isPaid ? <button onClick={()=> dispatch(makePaid(data._id))}>Make Paid</button> : <td> Paid</td>}
                         </tr>
                     })
                 }
@@ -47,4 +39,4 @@ const Table = () => {
     );
 };
 
-export default Table;
+export default TableData;

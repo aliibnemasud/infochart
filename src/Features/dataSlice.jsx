@@ -3,8 +3,10 @@ import axios from "axios";
 
 export const fetchData = createAsyncThunk("data/fetchPost", async () => {
     const data = await axios.get('tabledata.json');
-    return data.data; 
+    return data.data;
 })
+
+
 
 const dataSlice = createSlice({
     name: "data",
@@ -30,5 +32,6 @@ const dataSlice = createSlice({
         });
     }
 })
+
 
 export default dataSlice.reducer;
